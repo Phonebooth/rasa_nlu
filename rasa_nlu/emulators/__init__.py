@@ -32,6 +32,7 @@ class NoEmulator(object):
             _data["model"] = data["model"][0] if type(data["model"]) == list else data["model"]
 
         _data['time'] = data["time"] if "time" in data else None
+        _data['data'] = data["data"] if "data" in data else None
         return _data
 
     def normalise_response_json(self, data):

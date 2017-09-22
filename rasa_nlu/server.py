@@ -129,6 +129,7 @@ class RasaNLU(object):
             returnValue(json.dumps({"error": "Invalid parse parameter specified"}))
         else:
             data = self.data_router.extract(request_params)
+            print(data)
             try:
                 request.setResponseCode(200)
                 response = yield (self.data_router.parse(data) if self._testing

@@ -49,7 +49,7 @@ class SpacyNLP(Component):
         if spacy_model_name is None:
             spacy_model_name = config["language"]
         logger.info("Trying to load spacy model with name '{}'".format(spacy_model_name))
-        nlp = spacy.load(spacy_model_name, parser=False)
+        nlp = spacy.load(spacy_model_name)#, parser=False)
         cls.ensure_proper_language_model(nlp)
         return SpacyNLP(nlp, config["language"], spacy_model_name)
 
@@ -95,7 +95,7 @@ class SpacyNLP(Component):
         if cached_component:
             return cached_component
 
-        nlp = spacy.load(model_metadata.get("spacy_model_name"), parser=False)
+        nlp = spacy.load(model_metadata.get("spacy_model_name"))#, parser=False)
         cls.ensure_proper_language_model(nlp)
         return SpacyNLP(nlp, model_metadata.get("language"), model_metadata.get("spacy_model_name"))
 

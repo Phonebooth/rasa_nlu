@@ -163,7 +163,7 @@ class DataRouter(object):
                 except Exception as e:
                     raise InvalidProjectError("Unable to load project '{}'. Error: {}".format(project, e))
 
-        response, used_model = self.project_store[project].parse(data['text'], data.get('time', None), model)
+        response, used_model = self.project_store[project].parse(data['text'], data.get('time', None), model, data.get('data', None))
 
         if self.responses:
             self.responses.info(user_input=response, project=project, model=used_model)

@@ -49,7 +49,7 @@ class Project(object):
             self._writer_lock.release()
         self._reader_lock.release()
 
-    def parse(self, text, time=None, model=None):
+    def parse(self, text, time=None, model=None, data=None):
         self._begin_read()
 
         # Lazy model loading
@@ -62,7 +62,7 @@ class Project(object):
             self._models[model] = self._interpreter_for_model(model)
         self._loader_lock.release()
 
-        response = self._models[model].parse(text, time)
+        response = self._models[model].parse(text, time, data)
 
         self._end_read()
 

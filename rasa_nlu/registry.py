@@ -21,6 +21,8 @@ from rasa_nlu.extractors.duckling_extractor import DucklingExtractor
 from rasa_nlu.extractors.entity_synonyms import EntitySynonymMapper
 from rasa_nlu.extractors.mitie_entity_extractor import MitieEntityExtractor
 from rasa_nlu.extractors.spacy_entity_extractor import SpacyEntityExtractor
+from rasa_nlu.extractors.spacy_dobj_entity_extractor import SpacyDobjEntityExtractor
+from rasa_nlu.extractors.contact_entity_extractor import ContactEntityExtractor
 from rasa_nlu.extractors.crf_entity_extractor import CRFEntityExtractor
 from rasa_nlu.featurizers.mitie_featurizer import MitieFeaturizer
 from rasa_nlu.featurizers.ngram_featurizer import NGramFeaturizer
@@ -40,7 +42,7 @@ if typing.TYPE_CHECKING:
 # Classes of all known components. If a new component should be added, its class needs to be listed here.
 component_classes = [
     SpacyNLP, MitieNLP,
-    SpacyEntityExtractor, MitieEntityExtractor, DucklingExtractor, CRFEntityExtractor,
+    SpacyEntityExtractor, SpacyDobjEntityExtractor, MitieEntityExtractor, DucklingExtractor, CRFEntityExtractor, ContactEntityExtractor,
     EntitySynonymMapper,
     SpacyFeaturizer, MitieFeaturizer, NGramFeaturizer, RegexFeaturizer,
     MitieTokenizer, SpacyTokenizer, WhitespaceTokenizer,
@@ -99,8 +101,10 @@ registered_pipeline_templates = {
         "ner_mitie",
         "ner_crf",
         "ner_spacy",
+        "ner_dobj_spacy",
         "ner_duckling",
         "ner_synonyms",
+        "ner_contact",
         "intent_classifier_keyword",
         "intent_classifier_sklearn",
         "intent_classifier_mitie",
