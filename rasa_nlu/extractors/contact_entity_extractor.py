@@ -31,7 +31,7 @@ class ContactEntityExtractor(EntityExtractor):
         _contacts = [
             {
                 "entity": "contact",
-                "name": contact,
+                "value": contact,
                 "start": str(text.find(contact)),
                 "end": str(text.find(contact) + len(contact)-1)
             }
