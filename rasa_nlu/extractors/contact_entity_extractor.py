@@ -20,20 +20,34 @@ class ContactEntityExtractor(EntityExtractor):
 
     provides = ["entities"]
 
+    requires = ["spacy_doc"]
+
     def process(self, message, **kwargs):
         # type: (Message, **Any) -> None
 
-        extracted = self.add_extractor_name(self.extract_entities(message.text, message.get("contacts", [])))
+        extracted = self.add_extractor_name(self.extract_entities(message.text, message.get("contacts", []), message.get("spacy_doc")))
         message.set("entities", message.get("entities", []) + extracted, add_to_output=True)
 
-    def extract_entities(self, text, contacts):
+    def extract_entities(self, text, contacts, s_doc):
         # type: (Doc) -> List[Dict[Text, Any]]
         _contacts = [
             {
                 "entity": "contact",
                 "value": contact,
                 "start": str(text.find(contact)),
-                "end": str(text.find(contact) + len(contact)-1)
+                "end": str(text.find(contact) + len(contact)-1),
+                "match": "exact"
             }
-            for contact in text.split() if contact in contacts]
+            for contact in contacts if contact in text]
+
+        if len(_contacts) == 0:
+            _contacts = [
+                {
+                    "entity": "contact",
+                    "value": noun.text,
+                    "start": noun.start_char,
+                    "end": noun.end_char,
+                    "match": "spacy_noun"
+                }
+                for noun in s_doc.noun_chunks]
         return _contacts
