@@ -39,6 +39,7 @@ class ContactEntityExtractor(EntityExtractor):
                 "match": "exact"
             }
             for contact in contacts if contact in text]
+        _contacts = [max(_contacts, key=lambda c: len(c['value']))]
 
         if len(_contacts) == 0:
             _contacts = [
