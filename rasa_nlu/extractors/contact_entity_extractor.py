@@ -30,7 +30,8 @@ class ContactEntityExtractor(EntityExtractor):
         # type: (Doc) -> List[Dict[Text, Any]]
         _contacts = [
             {
-                "entity": contact,
+                "entity": "contact",
+                "name": contact,
                 "start": str(text.find(contact)),
                 "end": str(text.find(contact) + len(contact)-1)
             }
