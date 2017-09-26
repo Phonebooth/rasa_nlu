@@ -261,7 +261,7 @@ class Interpreter(object):
 
         if data is not None:
             for k in data:
-                message.set(k, data[k], add_to_output=True)
+                message.set(k, data[k], add_to_output=False)
 
         for component in self.pipeline:
             component.process(message, **self.context)
