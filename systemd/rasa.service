@@ -1,0 +1,19 @@
+[Unit]
+Description=Rasa NLU
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/local/bin/systemd-docker --logs=false run --rm -p 5000:5000\
+ -v rasa_models:/app/models\
+ -v rasa_logs:/app/logs\
+ -v rasa_data:/app/data --name %n rasa
+Restart=always
+RestartSec=10s
+Type=notify
+NotifyAccess=all
+TimeoutStartSec=120
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target
