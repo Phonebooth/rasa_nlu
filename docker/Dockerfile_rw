@@ -4,34 +4,29 @@ ENV RASA_NLU_DOCKER="YES" \
     RASA_NLU_HOME=/app \
     RASA_NLU_PYTHON_PACKAGES=/usr/local/lib/python3.5/dist-packages
 
-# Run updates, install basics and cleanup
-# - build-essential: Compile specific dependencies
-# - git-core: Checkout git repos
+# hack for installing default-jre (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199)
+RUN mkdir -p /usr/share/man/man1
 RUN apt-get update -qq \
-    && apt-get install -y --no-install-recommends build-essential git-core \
+    && apt-get install -y --no-install-recommends build-essential git-core default-jre-headless \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR ${RASA_NLU_HOME}
 
-COPY . ${RASA_NLU_HOME}
+COPY ./alt_requirements/ ${RASA_NLU_HOME}/alt_requirements/
 
-RUN pip install -r alt_requirements/requirements_full.txt
-
-RUN pip install -e .
-
-#RUN apt-get update -qq \
-#    && apt-get install -y --no-install-recommends wget \
-#    && wget -P data/ https://s3-eu-west-1.amazonaws.com/mitie/total_word_feature_extractor.dat \
-#    && apt-get remove -y wget \
-#    && apt-get autoremove -y
-
+RUN pip install -r alt_requirements/requirements_spacy_sklearn.txt
+RUN pip install duckling==1.7.3
 RUN pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-1.2.0/en_core_web_sm-1.2.0.tar.gz --no-cache-dir > /dev/null \
     && python -m spacy link en_core_web_sm en
 
-COPY sample_configs/config_spacy_duckling.json ${RASA_NLU_HOME}/config.json
+COPY . ${RASA_NLU_HOME}
 
-VOLUME ["/app/models", "/app/logs", "/app/data"]
+RUN pip install -e .
+
+COPY config/custom_pipeline.json ${RASA_NLU_HOME}/config.json
+
+VOLUME ["${RASA_NLU_HOME}/projects", "${RASA_NLU_HOME}/logs", "${RASA_NLU_HOME}/data"]
 
 EXPOSE 5000
 

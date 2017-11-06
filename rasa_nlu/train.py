@@ -59,7 +59,7 @@ class TrainingException(Exception):
             self.message = exception.args[0]
 
     def __str__(self):
-        return self.message
+        return str(self.message)
 
 
 def create_persistor(config):
@@ -102,10 +102,15 @@ def do_train(config, component_builder=None):
     # Ensure we are training a model that we can save in the end
     # WARN: there is still a race condition if a model with the same name is trained in another subprocess
     trainer = Trainer(config, component_builder)
+    print('1')
     persistor = create_persistor(config)
+    print('2')
     training_data = load_data(config['data'])
+    print('3')
     interpreter = trainer.train(training_data)
+    print('4')
     persisted_path = trainer.persist(config['path'], persistor, project_name=config['name'])
+    print('5')
     return trainer, interpreter, persisted_path
 
 

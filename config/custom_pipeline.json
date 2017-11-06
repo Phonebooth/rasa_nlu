@@ -1,0 +1,16 @@
+{
+  "project": "ibot",
+  "pipeline": [
+      "nlp_spacy",
+      "tokenizer_spacy",
+      "ner_spacy",
+      "ner_dobj_spacy",
+      "ner_synonyms",
+      "ner_duckling",
+      "intent_entity_featurizer_regex",
+      "intent_featurizer_spacy",
+      "intent_classifier_sklearn"],
+  "path" : "./projects",
+  "duckling_dimensions": ["time", "phone-number"],
+  "spacy_model_name": "en"
+}
