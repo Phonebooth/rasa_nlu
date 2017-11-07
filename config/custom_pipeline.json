@@ -10,7 +10,7 @@
       "intent_entity_featurizer_regex",
       "intent_featurizer_spacy",
       "intent_classifier_sklearn"],
-  "path" : "./projects",
+  "path" : "projects",
   "duckling_dimensions": ["time", "phone-number"],
   "spacy_model_name": "en"
 }
